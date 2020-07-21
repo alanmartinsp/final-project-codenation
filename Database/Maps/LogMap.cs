@@ -18,11 +18,12 @@ namespace Database.Maps
 
             builder.Property(x => x.Id).ValueGeneratedOnAdd();
             builder.Property(x => x.Level).HasColumnType("INT(1)").IsRequired();
+            builder.Property(x => x.Enviroment).HasColumnType("INT(1)").IsRequired();
             builder.Property(x => x.Event).HasColumnType("INT(3)").IsRequired();
             builder.Property(x => x.Title).HasColumnType("VARCHAR(255)").IsRequired();
             builder.Property(x => x.Origin).HasColumnType("VARCHAR(255)").IsRequired();
             builder.Property(x => x.Details).HasColumnType("TEXT").IsRequired();
-            builder.Property(x => x.CreatedAt).HasColumnType("DATETIME").IsRequired();
+            builder.Property(x => x.CreatedAt).HasColumnType("DATETIME").HasDefaultValueSql("CURRENT_TIMESTAMP()").IsRequired();
 
             builder.HasOne(x => x.User).WithMany(x => x.Logs);
         }

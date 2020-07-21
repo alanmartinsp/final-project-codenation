@@ -24,11 +24,16 @@ namespace Database.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("DATETIME");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("DATETIME")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP()");
 
                     b.Property<string>("Details")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("Enviroment")
+                        .HasColumnType("INT(1)");
 
                     b.Property<int>("Event")
                         .HasColumnType("INT(3)");
@@ -62,10 +67,11 @@ namespace Database.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("VARCHAR(255)");
+                        .HasColumnType("VARCHAR(100)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(100)");
 
                     b.Property<string>("Password")
                         .IsRequired()

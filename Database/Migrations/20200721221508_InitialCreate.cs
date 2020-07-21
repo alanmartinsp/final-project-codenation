@@ -14,8 +14,8 @@ namespace Database.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(type: "VARCHAR(255)", nullable: false),
+                    Name = table.Column<string>(type: "VARCHAR(100)", nullable: false),
+                    Email = table.Column<string>(type: "VARCHAR(100)", nullable: false),
                     Password = table.Column<string>(type: "VARCHAR(255)", nullable: false)
                 },
                 constraints: table =>
@@ -35,7 +35,8 @@ namespace Database.Migrations
                     Title = table.Column<string>(type: "VARCHAR(255)", nullable: false),
                     Origin = table.Column<string>(type: "VARCHAR(255)", nullable: false),
                     Details = table.Column<string>(type: "TEXT", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "DATETIME", nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "DATETIME", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP()"),
+                    Enviroment = table.Column<int>(type: "INT(1)", nullable: false)
                 },
                 constraints: table =>
                 {
