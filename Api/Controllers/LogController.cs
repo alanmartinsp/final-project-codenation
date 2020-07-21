@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Api.Filters;
 using Api.Request;
 using Business.Models;
 using Business.Repositories;
@@ -10,17 +11,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
+
     public class LogController : GenericController
     {
 
-        private LogValidator _logValidator;
         private LogService _logService;
 
         public LogController(ILogRepository logRepository)
         {
-            _logValidator = new LogValidator();
             _logService = new LogService(logRepository);
         }
 
@@ -28,23 +26,28 @@ namespace Api.Controllers
         /// </summary>
         /// <param name="request"></param>
         [HttpPost]
-        public void Post([FromBody] Log request)
+        public IActionResult Post([FromBody] Log request)
         {
-            ValidationResult result = _logValidator.Validate(request);
+            ValidationResult result = (new LogValidator()).Validate(request);
             if (!result.IsValid)
-                throw new Exception(result.ToString());
+            {
+                var erros = result.Errors.ToList().Select(x => new { Key = x.PropertyName, Error = x.ErrorMessage }).ToList();
+                return BadRequest(erros);
+            }
 
+            request.UserId = int.Parse(User.Claims.Where(x => x.Type == "userId").FirstOrDefault().Value);
             _logService.Save(request);
+            return Ok();
         }
 
         /// <summary>
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
-        public ActionResult<List<Log>> Get()
-        {
-            return _logService.GetAll().ToList();
-        }
+        //[HttpGet]
+        //public ActionResult<List<Log>> Get()
+        //{
+        //    return _logService.GetAll().ToList();
+        //}
 
         /// <summary>
         /// </summary>
@@ -54,7 +57,16 @@ namespace Api.Controllers
         [Route("{id}")]
         public ActionResult<Log> Get(int id)
         {
-            return _logService.Get(id);
+            return Ok(_logService.Get(id));
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public IActionResult Get([FromQuery]LogFilter filter = null)
+        {
+            return Ok(_logService.Get(filter).ToList());
         }
     }
 }

@@ -1,3 +1,4 @@
+using Api.AppConfig;
 using Business.Repositories;
 using Database.Context;
 using Database.Repositories;
@@ -9,81 +10,78 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
 
 namespace Api
 {
     public class Startup
     {
+        private RepositoriesConfig _repositoriesConfig;
+        private AuthConfig _authConfig;
+        public IConfiguration Configuration { get; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
-
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
 
-            ConfigScoped(services);
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllOrigins",
+                    builder =>
+                    {
+                        builder
+                            .AllowAnyOrigin()
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
+            });
 
-            ConfigAuthentication(services);
 
+            // DatabaseConfig
             services.AddDbContext<LocalContext>(options =>
-                options.UseMySql("Server=127.0.0.1;Port=3306;Database=codenationlog;Uid=root;SslMode=None"));
+                options.UseMySql(Configuration.GetConnectionString("Database")));
 
+            // Repositories
+            _repositoriesConfig = new RepositoriesConfig(ref services);
+            _repositoriesConfig.AddRepositoriesOnStartup();
+
+            // Authentication
+            _authConfig = new AuthConfig(ref services, Configuration);
+            _authConfig.AddAuthOnStartup();
+
+            // Swagger
+            services.AddSwaggerGen(x => x.SwaggerDoc(name: "v1", new OpenApiInfo { Title = "CodenationLog", Version = "v1" }));
+
+            services.AddControllers().AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
-            {
                 app.UseDeveloperExceptionPage();
-            }
+
+            app.UseCors("AllowAllOrigins");
+
+            app.UseSwagger();
+            app.UseSwaggerUI(x => x.SwaggerEndpoint(url: "/swagger/v1/swagger.json", name: "Log"));
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-            });
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="services"></param>
-        private void ConfigScoped(IServiceCollection services)
-        {
-            services.AddScoped<ILogRepository, LogRepository>();
-            services.AddScoped<IUserRepository, UserRepository>();
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="services"></param>
-        private void ConfigAuthentication(IServiceCollection services)
-        {
-            var key = Encoding.ASCII.GetBytes("xecretKeywqejane");
-            services.AddAuthentication(x =>
-            {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(x =>
-            {
-                x.RequireHttpsMetadata = false;
-                x.SaveToken = true;
-                x.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
-                };
             });
         }
     }

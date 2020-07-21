@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Database.Repositories
 {
-    public class GenericRepository<T> : IRepository<T>, IDisposable where T : Model
+    public class GenericRepository<T> : IRepository<T>, IDisposable where T : BaseModel
     {
 
         protected readonly LocalContext _context;
@@ -22,6 +22,9 @@ namespace Database.Repositories
             _context = context;
         }
 
+        /// <summary>
+        /// </summary>
+        /// <returns></returns>
         protected bool BeginTransaction()
         {
             if (_context.Database.CurrentTransaction == null)
@@ -33,6 +36,8 @@ namespace Database.Repositories
             return false;
         }
 
+        /// <summary>
+        /// </summary>
         protected void RollbackTransaction()
         {
             if (_context.Database.CurrentTransaction != null)
@@ -41,6 +46,8 @@ namespace Database.Repositories
             }
         }
 
+        /// <summary>
+        /// </summary>
         protected void CommitTransaction()
         {
             _context.Database.CurrentTransaction.Commit();

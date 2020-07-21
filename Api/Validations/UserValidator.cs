@@ -11,6 +11,7 @@ namespace Api.Request
     {
         public UserValidator()
         {
+            RuleFor(log => log.Name).NotNull().NotEmpty();
             RuleFor(log => log.Email).NotNull().NotEmpty();
             RuleFor(log => log.Password).NotNull().NotEmpty();
         }

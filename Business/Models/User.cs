@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Business.Models
 {
-    public class User : Model
+    public class User : BaseModel
     {
 
         public string Name { get; set; }

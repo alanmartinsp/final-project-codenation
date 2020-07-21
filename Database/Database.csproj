@@ -5,6 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200721182035_InitialCreate.cs" />
+    <Compile Remove="Migrations\20200721182035_InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\20200721182127_InitialCreate.cs" />
+    <Compile Remove="Migrations\20200721182127_InitialCreate.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.6" />
     <PackageReference Include="MySql.Data" Version="8.0.21" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.1.1" />

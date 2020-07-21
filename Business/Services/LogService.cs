@@ -1,4 +1,5 @@
-﻿using Business.Models;
+﻿using Api.Filters;
+using Business.Models;
 using Business.Repositories;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,11 @@ namespace Business.Services
     {
         public LogService(ILogRepository repository) : base(repository)
         {
+        }
+
+        public IEnumerable<Log> Get(LogFilter filter)
+        {
+            return (_repository as ILogRepository).Get(filter);
         }
     }
 }

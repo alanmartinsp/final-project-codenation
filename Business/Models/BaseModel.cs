@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Business.Models
 {
-    public abstract class Model
+    public abstract class BaseModel
     {
         [Key]
         public int Id { get; set; }

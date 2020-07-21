@@ -10,17 +10,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
     public class UserController : GenericController
     {
-
-        private UserValidator _userValidator;
         private UserService _userService;
 
         public UserController(IUserRepository userRepository)
         {
-            _userValidator = new UserValidator();
             _userService = new UserService(userRepository);
         }
 
@@ -28,22 +23,26 @@ namespace Api.Controllers
         /// </summary>
         /// <param name="request"></param>
         [HttpPost]
-        public void Post([FromBody] User request)
+        public IActionResult Post([FromBody] User request)
         {
-            ValidationResult result = _userValidator.Validate(request);
+            ValidationResult result = (new UserValidator()).Validate(request);
             if (!result.IsValid)
-                throw new Exception(result.ToString());
+            {
+                var erros = result.Errors.ToList().Select(x => new { Key = x.PropertyName, Error = x.ErrorMessage }).ToList();
+                return BadRequest(erros);
+            }
 
             _userService.Save(request);
+            return Ok();
         }
 
         /// <summary>
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<List<User>> Get()
+        public IActionResult Get()
         {
-            return _userService.GetAll().ToList();
+            return Ok(_userService.GetAll().ToList());
         }
 
         /// <summary>
@@ -52,7 +51,7 @@ namespace Api.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("{id}")]
-        public ActionResult<User> Get(int id)
+        public IActionResult Get(int id)
         {
             return Ok(_userService.Get(id));
         }
