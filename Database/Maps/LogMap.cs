@@ -14,14 +14,17 @@ namespace Database.Maps
         {
             builder.ToTable("Logs");
 
-            builder.HasKey(x => x.Hash);
+            builder.HasKey(x => x.Id);
+
+            builder.Property(x => x.Id).ValueGeneratedOnAdd();
             builder.Property(x => x.Level).HasColumnType("INT(1)").IsRequired();
             builder.Property(x => x.Event).HasColumnType("INT(3)").IsRequired();
             builder.Property(x => x.Title).HasColumnType("VARCHAR(255)").IsRequired();
             builder.Property(x => x.Origin).HasColumnType("VARCHAR(255)").IsRequired();
             builder.Property(x => x.Details).HasColumnType("TEXT").IsRequired();
+            builder.Property(x => x.CreatedAt).HasColumnType("DATETIME").IsRequired();
 
-            // Add forenkey here
+            builder.HasOne(x => x.User).WithMany(x => x.Logs);
         }
     }
 }

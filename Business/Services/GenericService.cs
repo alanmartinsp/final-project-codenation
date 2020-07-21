@@ -18,7 +18,7 @@ namespace Business.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public virtual T Get(string id)
+        public virtual T Get(int id)
         {
             return _repository.Get(id);
         }

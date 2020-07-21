@@ -11,11 +11,11 @@ namespace Api.Request
     {
         public LogValidator()
         {
-            RuleFor(log => log.Level).NotNull();
-            RuleFor(log => log.Event).NotNull();
-            RuleFor(log => log.Title).NotNull();
-            RuleFor(log => log.Origin).NotNull();
-            RuleFor(log => log.Details).NotNull();
+            RuleFor(log => log.Level).NotNull().NotEmpty();
+            RuleFor(log => log.Event).NotNull().NotEmpty();
+            RuleFor(log => log.Title).NotNull().NotEmpty();
+            RuleFor(log => log.Origin).NotNull().NotEmpty();
+            RuleFor(log => log.Details).NotNull().NotEmpty();
         }
     }
 }

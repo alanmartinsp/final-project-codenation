@@ -5,9 +5,9 @@ using System.Text;
 
 namespace Business.Models
 {
-    public class Model
+    public abstract class Model
     {
         [Key]
-        public string Hash { get; set; }
+        public int Id { get; set; }
     }
 }

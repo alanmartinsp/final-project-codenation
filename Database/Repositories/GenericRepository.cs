@@ -58,7 +58,7 @@ namespace Database.Repositories
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public virtual T Get(string id)
+        public virtual T Get(int id)
         {
             return _context.Set<T>().Find(id);
         }
@@ -71,7 +71,6 @@ namespace Database.Repositories
             if (entity == null)
                 throw new ArgumentException("entity null");
 
-            entity.Hash = Guid.NewGuid().ToString();
             _context.Set<T>().Add(entity);
             _context.SaveChanges();
         }

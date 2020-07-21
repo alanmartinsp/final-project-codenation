@@ -19,6 +19,7 @@ namespace Business.Models
         public string Title { get; set; }
         public string Origin { get; set; }
         public string Details { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         public virtual User User { get; set; }
     }

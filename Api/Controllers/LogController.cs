@@ -12,7 +12,7 @@ namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class LogController : ControllerBase
+    public class LogController : GenericController
     {
 
         private LogValidator _logValidator;
@@ -24,6 +24,9 @@ namespace Api.Controllers
             _logService = new LogService(logRepository);
         }
 
+        /// <summary>
+        /// </summary>
+        /// <param name="request"></param>
         [HttpPost]
         public void Post([FromBody] Log request)
         {
@@ -34,29 +37,24 @@ namespace Api.Controllers
             _logService.Save(request);
         }
 
-        [HttpPost]
-        [Route("{id}")]
-        public void Put(string id, [FromBody] Log request)
-        {
-            try
-            {
-            }
-            catch (Exception e)
-            {
-            }
-        }
-
+        /// <summary>
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult<List<Log>> Get()
         {
             return _logService.GetAll().ToList();
         }
 
+        /// <summary>
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("{id}")]
-        public ActionResult<Log> Get(string hash)
+        public ActionResult<Log> Get(int id)
         {
-            return Ok(_logService.Get(hash));
+            return _logService.Get(id);
         }
     }
 }

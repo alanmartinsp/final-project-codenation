@@ -1,12 +1,15 @@
 using Business.Repositories;
 using Database.Context;
 using Database.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace Api
 {
@@ -24,7 +27,9 @@ namespace Api
         {
             services.AddControllers();
 
-            DefinedScoped(services);
+            ConfigScoped(services);
+
+            ConfigAuthentication(services);
 
             services.AddDbContext<LocalContext>(options =>
                 options.UseMySql("Server=127.0.0.1;Port=3306;Database=codenationlog;Uid=root;SslMode=None"));
@@ -52,10 +57,34 @@ namespace Api
         /// <summary>
         /// </summary>
         /// <param name="services"></param>
-        private void DefinedScoped(IServiceCollection services)
+        private void ConfigScoped(IServiceCollection services)
         {
             services.AddScoped<ILogRepository, LogRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="services"></param>
+        private void ConfigAuthentication(IServiceCollection services)
+        {
+            var key = Encoding.ASCII.GetBytes("xecretKeywqejane");
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
         }
     }
 }

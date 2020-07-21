@@ -14,9 +14,9 @@ namespace Database.Maps
         {
             builder.ToTable("Users");
 
-            builder.HasKey(x => x.Hash);
-
-            // Add forenkey here
+            builder.Property(x => x.Name).HasColumnType("VARCHAR(100)").IsRequired();
+            builder.Property(x => x.Email).HasColumnType("VARCHAR(100)").IsRequired();
+            builder.Property(x => x.Password).HasColumnType("VARCHAR(255)").IsRequired();
         }
     }
 }

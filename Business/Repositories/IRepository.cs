@@ -11,7 +11,7 @@ namespace Business.Repositories
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        TModel Get(string id);
+        TModel Get(int id);
 
         /// <summary>
         /// </summary>

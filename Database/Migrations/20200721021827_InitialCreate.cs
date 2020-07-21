@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Database.Migrations
 {
@@ -10,41 +12,46 @@ namespace Database.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Hash = table.Column<string>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(type: "VARCHAR(255)", nullable: false),
+                    Password = table.Column<string>(type: "VARCHAR(255)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Hash);
+                    table.PrimaryKey("PK_Users", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Logs",
                 columns: table => new
                 {
-                    Hash = table.Column<string>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Level = table.Column<int>(type: "INT(1)", nullable: false),
                     Event = table.Column<int>(type: "INT(3)", nullable: false),
                     UserId = table.Column<int>(nullable: false),
                     Title = table.Column<string>(type: "VARCHAR(255)", nullable: false),
                     Origin = table.Column<string>(type: "VARCHAR(255)", nullable: false),
                     Details = table.Column<string>(type: "TEXT", nullable: false),
-                    UserHash = table.Column<string>(nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "DATETIME", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Logs", x => x.Hash);
+                    table.PrimaryKey("PK_Logs", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Logs_Users_UserHash",
-                        column: x => x.UserHash,
+                        name: "FK_Logs_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Hash",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Logs_UserHash",
+                name: "IX_Logs_UserId",
                 table: "Logs",
-                column: "UserHash");
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
