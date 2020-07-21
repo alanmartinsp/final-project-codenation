@@ -2,7 +2,7 @@ import axios from 'axios'
 import router from './router'
 
 const http = axios.create({
-  baseURL: process.env.VUE_APP_BASE_API,
+  baseURL: "http://localhost:51325/api/",
   headers: {
     Authorization: {
       toString () {

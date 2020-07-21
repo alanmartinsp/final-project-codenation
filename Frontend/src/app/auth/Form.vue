@@ -39,10 +39,18 @@
               <v-card-actions>
                 <v-btn block color="primary" @click="login" :loading="view.loading.isLoading">Login</v-btn>
               </v-card-actions>
+
+              <div class="text-right">
+                <span>Ainda não é cadastrado ? <a @click="onClickNew">Crie sua conta</a></span>
+              </div>
             </v-card>
           </v-flex>
         </v-layout>
       </v-container>
+
+      <Form
+        ref="formNewUser"/>
+
     </v-content>
   </v-app>
   </div>
@@ -50,6 +58,7 @@
 <script>
 
 import http from '@/plugins/http'
+import Form from '../user/Form'
 
 export default {
 
@@ -59,12 +68,13 @@ export default {
   },
 
   components: {
+    Form
   },
 
   data () {
     return {
       model: {
-        username: '',
+        email: '',
         password: '',
       },
       view: {
@@ -95,7 +105,7 @@ export default {
       }
 
       this.view.loading.isLoading = true
-      http.post('login', this.model).then(response => {
+      http.post('auth', this.model).then(response => {
         let token = response.data.token
         let user = response.data.user
         this.setTokenLocalStorage(token, user)
@@ -116,6 +126,10 @@ export default {
     setTokenLocalStorage (token, user) {
       localStorage.setItem('token', token)
       localStorage.setItem('user', JSON.stringify(user))
+    },
+
+    onClickNew() {
+      this.$refs.formNewUser.open()
     }
   }
 }
