@@ -1,6 +1,7 @@
 ﻿using Business.Models;
 using Business.Repositories;
 using Database.Context;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,8 @@ namespace Database.Repositories
         public User GetByLoginAndPassword(string login, string password)
         {
             return _context.Users
+                           .Where(x => x.Email == login && x.Password == password)
+                           .AsNoTracking()
                            .FirstOrDefault();
         }
     }

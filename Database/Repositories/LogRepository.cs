@@ -36,23 +36,23 @@ namespace Database.Repositories
         public IEnumerable<Log> Get(LogFilter filter)
         {
             string query = "SELECT * FROM Logs WHERE 1 = 1 ";
-            var user = new SqlParameter("user", "johndoe");
+            List<string> parameters = new List<string>();
 
             if (!string.IsNullOrEmpty(filter.Enviroment.ToString()))
             {
-                query += "AND Enviroment = @enviroment";
-                parameters.Add(new SqlParameter("@enviroment", filter.Enviroment));
+                query += "AND Enviroment = ? ";
+                parameters.Add(filter.Enviroment.ToString());
             }
 
 
-            if (!string.IsNullOrEmpty(filter.Filter))
+            if (!string.IsNullOrEmpty(filter.Field))
             {
-                query += $"AND {filter.Filter} = @filter";
-                parameters.Add(new SqlParameter("@filter", filter.FilterDescription));
+                query += $"AND {filter.Field} like ? ";
+                parameters.Add($"%{filter.FieldDescription}%");
             }
 
             if (!string.IsNullOrEmpty(filter.OrderBy))
-                query += $"ORDER BY {filter.OrderBy}";
+                query += $"ORDER BY {filter.OrderBy} DESC";
 
             return _context.Logs.FromSqlRaw(query, parameters.ToArray()).ToList();
         }

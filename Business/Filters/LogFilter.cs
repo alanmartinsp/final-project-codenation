@@ -10,7 +10,7 @@ namespace Api.Filters
     {
         public int? Enviroment { get; set; }
         public string OrderBy { get; set; }
-        public string Filter { get; set; }
-        public string FilterDescription { get; set; }
+        public string Field { get; set; }
+        public string FieldDescription { get; set; }
     }
 }

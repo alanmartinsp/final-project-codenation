@@ -50,7 +50,7 @@ namespace Api.Controllers
 
             User user = _userService.Auth(request.Email, request.Password);
             if (user == null)
-                return Unauthorized();
+                return Forbid();
 
             return GenerateToken(user);
         }

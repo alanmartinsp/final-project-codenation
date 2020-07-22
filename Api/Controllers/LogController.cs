@@ -42,15 +42,6 @@ namespace Api.Controllers
 
         /// <summary>
         /// </summary>
-        /// <returns></returns>
-        //[HttpGet]
-        //public ActionResult<List<Log>> Get()
-        //{
-        //    return _logService.GetAll().ToList();
-        //}
-
-        /// <summary>
-        /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
@@ -66,7 +57,10 @@ namespace Api.Controllers
         [HttpGet]
         public IActionResult Get([FromQuery]LogFilter filter = null)
         {
-            return Ok(_logService.Get(filter).ToList());
+            if (filter != null)
+                return Ok(_logService.Get(filter));
+
+            return Ok(_logService.GetAll());
         }
     }
 }
