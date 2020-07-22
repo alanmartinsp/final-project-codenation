@@ -8,7 +8,7 @@
             <v-card class="elevation-2 pa-4">
               <v-card-text>
                 <div class="layout column align-center pa-4">
-                  <img :src="require('../../assets/logo.png')"/>
+                  <!-- <img :src="require('../../assets/logo.png')"/> -->
                 </div>
                 <v-form ref="form" v-model="view.valid" lazy-validation>
                   <v-text-field
@@ -111,9 +111,8 @@ export default {
         this.setTokenLocalStorage(token, user)
         this.setTokenHearderHttp(token)
         this.$router.push('/')
-      }).catch(ex => {
-        let message = ex.response.data.error
-        this.notify(message, 'error')
+      }).catch(() => {
+        this.notify('E-mail ou senha incorretos', 'error')
       }).then(() => {
         this.view.loading.isLoading = false
       })
