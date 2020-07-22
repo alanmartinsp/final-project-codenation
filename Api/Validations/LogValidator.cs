@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Api.Request
 {
-    public class LogValidator : AbstractValidator<Log>
+    public class LogValidator : AbstractValidator<LogRequest>
     {
         public LogValidator()
         {
@@ -16,6 +16,7 @@ namespace Api.Request
             RuleFor(log => log.Title).NotNull().NotEmpty();
             RuleFor(log => log.Origin).NotNull().NotEmpty();
             RuleFor(log => log.Details).NotNull().NotEmpty();
+            RuleFor(log => log.Enviroment).NotNull().NotEmpty();
         }
     }
 }

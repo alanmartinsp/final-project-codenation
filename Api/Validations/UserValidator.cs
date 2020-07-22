@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Api.Request
 {
-    public class UserValidator : AbstractValidator<User>
+    public class UserValidator : AbstractValidator<UserRequest>
     {
         public UserValidator()
         {

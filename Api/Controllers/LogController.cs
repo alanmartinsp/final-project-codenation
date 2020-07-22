@@ -26,7 +26,7 @@ namespace Api.Controllers
         /// </summary>
         /// <param name="request"></param>
         [HttpPost]
-        public IActionResult Post([FromBody] Log request)
+        public IActionResult Post([FromBody] LogRequest request)
         {
             ValidationResult result = (new LogValidator()).Validate(request);
             if (!result.IsValid)
@@ -35,8 +35,18 @@ namespace Api.Controllers
                 return BadRequest(erros);
             }
 
-            request.UserId = int.Parse(User.Claims.Where(x => x.Type == "userId").FirstOrDefault().Value);
-            _logService.Save(request);
+            Log log = new Log()
+            {
+                Level = request.Level,
+                Event = request.Event,
+                Title = request.Title,
+                Origin = request.Origin,
+                Details = request.Details,
+                Enviroment = request.Enviroment,
+                UserId = int.Parse(User.Claims.Where(x => x.Type == "userId").FirstOrDefault().Value)
+            };
+
+            _logService.Save(log);
             return Ok();
         }
 

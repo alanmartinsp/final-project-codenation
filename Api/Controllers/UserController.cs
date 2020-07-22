@@ -23,7 +23,7 @@ namespace Api.Controllers
         /// </summary>
         /// <param name="request"></param>
         [HttpPost]
-        public IActionResult Post([FromBody] User request)
+        public IActionResult Post([FromBody] UserRequest request)
         {
             ValidationResult result = (new UserValidator()).Validate(request);
             if (!result.IsValid)
@@ -32,7 +32,14 @@ namespace Api.Controllers
                 return BadRequest(erros);
             }
 
-            _userService.Save(request);
+            User user = new User
+            {
+                Name = request.Name,
+                Email = request.Email,
+                Password = request.Password,
+            };
+
+            _userService.Save(user);
             return Ok();
         }
 
