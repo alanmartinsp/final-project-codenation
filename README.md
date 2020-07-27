@@ -23,9 +23,6 @@ A arquitetura do projeto é formada por:
 - Se a aceleração tiver ênfase no backend (Java, Python, C#, Go, PHP, etc) a equipe deve obrigatoriamente implementar a API. A implementação do frontend é considerado um bônus importante
 - Se a aceleração tiver ênfase em frontend (React, Vue, Angular, etc) a equipe deve obrigatoriamente implementar o frontend da aplicação e o backend pode ser substituido por uma aplicação mock. A implementação da API é considerado um bônus importante
 
-## Endpoints
-Após executar a aplicação, você pode acessar a documentação da API, contendo os endpoints implementados, no endereço https://codenation-log-api.herokuapp.com/swagger.
-
 ## Tabela de endpoints
 
 | Endpoint               | Verbo | Função                                           |
