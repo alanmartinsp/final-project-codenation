@@ -1,5 +1,6 @@
 <template>
-  <v-main class="container-log">
+  <v-main>
+    <div class="container-log">
     
     <v-btn tile color="primary" text @click="onClickBack">
       Voltar
@@ -11,7 +12,7 @@
           Erro no {{ model.origin }} em {{ formatDate(model.createAt) }}
         </h1>
       </v-col>
-aaaaa
+
       <v-col cols="12" md="8">
         
         <div class="container-title">
@@ -38,7 +39,8 @@ aaaaa
         <div><label>{{ (model.user || {}).name }}</label></div>
       </v-col>
 
-    </v-row>  
+    </v-row>
+    </div>
   </v-main>
 </template>
 <script>
