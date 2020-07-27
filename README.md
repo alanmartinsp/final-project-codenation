@@ -43,6 +43,6 @@ Para fins de demonstração de funcionamento, foi feito o deploy da aplicação 
 
 | Serviço | Link |
 | :--- | :--- |
-| Front-end | [https://codenation-log-frontend.herokuapp.com/](Frontend)|
+| Front-end | [https://codenation-log-frontend.herokuapp.com/](https://codenation-log-frontend.herokuapp.com/)|
 | Back-end | [https://codenation-log-api.herokuapp.com/](https://codenation-log-api.herokuapp.com/swagger/) |
 | Banco de Dados | *Sem acesso externo* |
