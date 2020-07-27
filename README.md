@@ -24,7 +24,20 @@ A arquitetura do projeto é formada por:
 - Se a aceleração tiver ênfase em frontend (React, Vue, Angular, etc) a equipe deve obrigatoriamente implementar o frontend da aplicação e o backend pode ser substituido por uma aplicação mock. A implementação da API é considerado um bônus importante
 
 ## Endpoints
-Após executar a aplicação, você pode acessar a documentação da API, contendo os endpoints implementados, no endereço http://localhost:51325/swagger.
+Após executar a aplicação, você pode acessar a documentação da API, contendo os endpoints implementados, no endereço https://codenation-log-api.herokuapp.com/swagger.
+
+## Tabela de endpoints
+
+| Endpoint               | Verbo | Função |
+| {url}/api/auth         | POST  | Autenticação
+| {url}/api/user         | POST  | Cadastrar um usuário
+| {url}/api/user         | GET   | Listar usuários
+| {url}/api/user/{id}    | GET   | Retorna dados de um usuário especifico
+| {url}/api/log          | POST  | Cadastra um novo Log
+| {url}/api/log          | GET   | Lista todos os Logs
+| {url}/api/log?{params} | GET   | Lista logs podendo utilizar filtros( )
+| {url}/api/log/{id}     | GET   | Retorna dados de um Log especifico
+
 
 ## Deploy
 
@@ -33,5 +46,5 @@ Para fins de demonstração de funcionamento, foi feito o deploy da aplicação 
 | Serviço | Link |
 | :--- | :--- |
 | Front-end | [https://codenation-log-frontend.herokuapp.com/](Frontend)|
-| Back-end | [https://codenation-log-api.herokuapp.com/swagger](Api) |
+| Back-end | [https://codenation-log-api.herokuapp.com/api/](Api) |
 | Banco de Dados | *Sem acesso externo* |
