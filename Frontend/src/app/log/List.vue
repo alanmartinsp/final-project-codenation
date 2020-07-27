@@ -236,8 +236,11 @@
           return 'Debug'
       },
       getEnviromentDescription(enviroment) {
-        console.log(enviroment)
-        return (this.view.list.enviroments.find(e => e.value == enviroment)).description
+        let log = (this.view.list.enviroments.find(e => e.value == enviroment))
+        if (log)
+          return log.description
+        
+        return 'N/A'
       }
     }
   }
