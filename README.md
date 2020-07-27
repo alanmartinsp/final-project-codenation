@@ -28,15 +28,19 @@ Após executar a aplicação, você pode acessar a documentação da API, conten
 
 ## Tabela de endpoints
 
-| Endpoint               | Verbo | Função |
-| {url}/api/auth         | POST  | Autenticação
-| {url}/api/user         | POST  | Cadastrar um usuário
-| {url}/api/user         | GET   | Listar usuários
-| {url}/api/user/{id}    | GET   | Retorna dados de um usuário especifico
-| {url}/api/log          | POST  | Cadastra um novo Log
-| {url}/api/log          | GET   | Lista todos os Logs
-| {url}/api/log?{params} | GET   | Lista logs podendo utilizar filtros( )
-| {url}/api/log/{id}     | GET   | Retorna dados de um Log especifico
+| Endpoint               | Verbo | Função                                           |
+| {url}/api/auth         | POST  | Autenticação                                     |
+| {url}/api/user         | POST  | Cadastrar um usuário                             |
+| {url}/api/user         | GET   | Listar usuários                                  |
+| {url}/api/user/{id}    | GET   | Retorna dados de um usuário especifico           |
+| {url}/api/log          | POST  | Cadastra um novo Log                             |
+| {url}/api/log          | GET   | Lista todos os Logs                              |
+| {url}/api/log?{params} | GET   | Lista logs podendo utilizar filtros              |
+                                   Enviroment( 1 = Produção, 2 = Homologação, 3 = Dev
+                                   Orderby = level
+                                   field = level, title, origin
+                                   fieldDescription = text
+| {url}/api/log/{id}     | GET   | Retorna dados de um Log especifico               |
 
 
 ## Deploy
