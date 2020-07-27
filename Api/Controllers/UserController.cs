@@ -6,6 +6,7 @@ using Business.Models;
 using Business.Repositories;
 using Business.Services;
 using FluentValidation.Results;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -23,6 +24,7 @@ namespace Api.Controllers
         /// </summary>
         /// <param name="request"></param>
         [HttpPost]
+        [AllowAnonymous]
         public IActionResult Post([FromBody] UserRequest request)
         {
             ValidationResult result = (new UserValidator()).Validate(request);
